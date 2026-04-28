@@ -1,0 +1,26 @@
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        #segment board into three parts
+        #rows (already done)
+        #columns (inverse [y][x] so we can access columns? how to do in python)
+        #quadrants ([floory/3][floorx/3])
+        #convert these segments into sets and compare length to list
+        #if any are smaller, return false
+        rows = collections.defaultdict(list)
+        cols = collections.defaultdict(list)
+        quads = collections.defaultdict(list)
+        x = 0
+        y = 0
+        while y < 9:
+            while x < 9:
+                if board[y][x] != ".":
+                    if board[y][x] in rows[y]: return False
+                    else: rows[y].append(board[y][x])
+                    if board[y][x] in cols[x]: return False
+                    else: cols[x].append(board[y][x])
+                    if board[y][x] in quads[(y//3,x//3)]: return False
+                    else: quads[(y//3,x//3)].append(board[y][x])
+                x += 1
+            y += 1
+            x = 0
+        return True
